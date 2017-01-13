@@ -18,6 +18,7 @@
 		529AABE61E288F21000C62A1 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529AABE51E288F21000C62A1 /* main.swift */; };
 		52EEB52A1E28A3DC00F55421 /* Storyboards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EEB5291E28A3DC00F55421 /* Storyboards.swift */; };
 		52EEB52C1E28A40F00F55421 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EEB52B1E28A40F00F55421 /* Images.swift */; };
+		52EEB52F1E28AAA000F55421 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EEB52E1E28AAA000F55421 /* AppCoordinator.swift */; };
 		530F322EECD15508168C763A /* Pods_AnotherFeedlyAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 911C1A96ECF0C82B2F014FEF /* Pods_AnotherFeedlyAppTests.framework */; };
 		75D275FF391D07DE038A9A61 /* Pods_AnotherFeedlyApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B1D9550883C81AA2E33CE55 /* Pods_AnotherFeedlyApp.framework */; };
 /* End PBXBuildFile section */
@@ -50,6 +51,7 @@
 		529AABE51E288F21000C62A1 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		52EEB5291E28A3DC00F55421 /* Storyboards.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Storyboards.swift; path = Constants/Storyboards.swift; sourceTree = "<group>"; };
 		52EEB52B1E28A40F00F55421 /* Images.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Images.swift; path = Constants/Images.swift; sourceTree = "<group>"; };
+		52EEB52E1E28AAA000F55421 /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		6B1D9550883C81AA2E33CE55 /* Pods_AnotherFeedlyApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AnotherFeedlyApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		911C1A96ECF0C82B2F014FEF /* Pods_AnotherFeedlyAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AnotherFeedlyAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAA9D6E293804FAC2F9A326A /* Pods-AnotherFeedlyAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnotherFeedlyAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AnotherFeedlyAppTests/Pods-AnotherFeedlyAppTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				529AABD51E287088000C62A1 /* Spotify.swift */,
 				529AABE51E288F21000C62A1 /* main.swift */,
 				5273A4A11E2719F300633F6A /* AppDelegate.swift */,
+				52EEB52E1E28AAA000F55421 /* AppCoordinator.swift */,
 				5273A4A31E2719F300633F6A /* ViewController.swift */,
 				5273A4A51E2719F300633F6A /* Main.storyboard */,
 				529AABD11E28601F000C62A1 /* SignInViewController.swift */,
@@ -389,6 +392,7 @@
 				529AABD61E287088000C62A1 /* Spotify.swift in Sources */,
 				529AABE61E288F21000C62A1 /* main.swift in Sources */,
 				52EEB52A1E28A3DC00F55421 /* Storyboards.swift in Sources */,
+				52EEB52F1E28AAA000F55421 /* AppCoordinator.swift in Sources */,
 				529AABD21E28601F000C62A1 /* SignInViewController.swift in Sources */,
 				52EEB52C1E28A40F00F55421 /* Images.swift in Sources */,
 				5273A4A21E2719F300633F6A /* AppDelegate.swift in Sources */,

@@ -1,11 +1,3 @@
-//
-//  main.swift
-//  AnotherFeedlyApp
-//
-//  Created by John Regner on 1/12/17.
-//  Copyright © 2017 iOS-Connect. All rights reserved.
-//
-
 import UIKit
 
 let isRunningTests = NSClassFromString("XCTestCase") != nil
