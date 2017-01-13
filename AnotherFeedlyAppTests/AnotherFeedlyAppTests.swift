@@ -3,33 +3,33 @@ import XCTest
 
 class AppDelegateTests: XCTestCase {
 
-    var ad: AppDelegate! = nil
+    var appDelegate: AppDelegate! = nil // swiftlint:disable:this weak_delegate
 
     override func setUp() {
         super.setUp()
-        ad = AppDelegate()
+        appDelegate = AppDelegate()
     }
-    
+
     override func tearDown() {
-        ad = nil
+        appDelegate = nil
         super.tearDown()
     }
-    
+
     func testAppDelegateCreatesWindow() {
-        XCTAssertNotNil(ad.window)
+        XCTAssertNotNil(appDelegate.window)
     }
 
     func testAppDelegateHasCoordinator() {
-        XCTAssertNotNil(ad.appCoordinator)
+        XCTAssertNotNil(appDelegate.appCoordinator)
     }
-    
+
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {
             // Put the code you want to measure the time of here.
         }
     }
-    
+
 }
 
 class AppCoordinatorTests: XCTestCase {
