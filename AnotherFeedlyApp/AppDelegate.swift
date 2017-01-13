@@ -41,7 +41,8 @@ class AppCoordinator {
     }
 
     func appLaunched(options: [UIApplicationLaunchOptionsKey : Any]? = nil) {
-        let signInVC = Storyboard.instantiateSignInViewController()
+
+        let signInVC = StoryboardScene.Main.instantiateSignInViewController()
         let signInWebViewDelegate = SignInWebViewDelegate(signInComplete: signInComplete)
 
         signInVC.webViewDelegate = signInWebViewDelegate
