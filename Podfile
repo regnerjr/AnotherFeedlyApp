@@ -4,6 +4,7 @@ target 'AnotherFeedlyApp' do
 
   # Pods for AnotherFeedlyApp
   pod 'SwiftLint'
+  pod 'SwiftGen'
 
   target 'AnotherFeedlyAppTests' do
     inherit! :search_paths
