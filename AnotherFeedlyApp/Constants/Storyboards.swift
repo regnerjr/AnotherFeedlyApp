@@ -1,6 +1,8 @@
 // Generated using SwiftGen, by O.Halligon — https://github.com/AliSoftware/SwiftGen
 
+import Foundation
 import UIKit
+import AnotherFeedlyApp
 
 // swiftlint:disable file_length
 // swiftlint:disable line_length
@@ -35,7 +37,7 @@ extension StoryboardSceneType where Self: RawRepresentable, Self.RawValue == Str
 protocol StoryboardSegueType: RawRepresentable { }
 
 extension UIViewController {
-  func performSegue<S: StoryboardSegueType>(segue: S, sender: AnyObject? = nil) where S.RawValue == String {
+  func perform<S: StoryboardSegueType>(segue: S, sender: Any? = nil) where S.RawValue == String {
     performSegue(withIdentifier: segue.rawValue, sender: sender)
   }
 }
@@ -47,20 +49,11 @@ struct StoryboardScene {
   enum Main: String, StoryboardSceneType {
     static let storyboardName = "Main"
 
-    case SignInViewControllerScene = "signInViewController"
+    case signInViewControllerScene = "signInViewController"
     static func instantiateSignInViewController() -> AnotherFeedlyApp.SignInViewController {
-      guard let vc = StoryboardScene.Main.SignInViewControllerScene.viewController() as? AnotherFeedlyApp.SignInViewController
+      guard let vc = StoryboardScene.Main.signInViewControllerScene.viewController() as? AnotherFeedlyApp.SignInViewController
       else {
         fatalError("ViewController 'signInViewController' is not of the expected class AnotherFeedlyApp.SignInViewController.")
-      }
-      return vc
-    }
-
-    case ViewControllerScene = "viewController"
-    static func instantiateViewController() -> AnotherFeedlyApp.ViewController {
-      guard let vc = StoryboardScene.Main.ViewControllerScene.viewController() as? AnotherFeedlyApp.ViewController
-      else {
-        fatalError("ViewController 'viewController' is not of the expected class AnotherFeedlyApp.ViewController.")
       }
       return vc
     }

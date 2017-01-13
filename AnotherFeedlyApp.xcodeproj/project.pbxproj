@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		5273A4A21E2719F300633F6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5273A4A11E2719F300633F6A /* AppDelegate.swift */; };
-		5273A4A41E2719F300633F6A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5273A4A31E2719F300633F6A /* ViewController.swift */; };
 		5273A4A71E2719F300633F6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5273A4A51E2719F300633F6A /* Main.storyboard */; };
 		5273A4A91E2719F300633F6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5273A4A81E2719F300633F6A /* Assets.xcassets */; };
 		5273A4AC1E2719F300633F6A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5273A4AA1E2719F300633F6A /* LaunchScreen.storyboard */; };
@@ -38,7 +37,6 @@
 		3B723414805BF8067B12A136 /* Pods-AnotherFeedlyAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnotherFeedlyAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AnotherFeedlyAppTests/Pods-AnotherFeedlyAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5273A49E1E2719F300633F6A /* AnotherFeedlyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnotherFeedlyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5273A4A11E2719F300633F6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5273A4A31E2719F300633F6A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		5273A4A61E2719F300633F6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5273A4A81E2719F300633F6A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5273A4AB1E2719F300633F6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -106,7 +104,6 @@
 				529AABE51E288F21000C62A1 /* main.swift */,
 				5273A4A11E2719F300633F6A /* AppDelegate.swift */,
 				52EEB52E1E28AAA000F55421 /* AppCoordinator.swift */,
-				5273A4A31E2719F300633F6A /* ViewController.swift */,
 				5273A4A51E2719F300633F6A /* Main.storyboard */,
 				529AABD11E28601F000C62A1 /* SignInViewController.swift */,
 				5273A4A81E2719F300633F6A /* Assets.xcassets */,
@@ -161,6 +158,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5273A4B01E2719F400633F6A /* Build configuration list for PBXNativeTarget "AnotherFeedlyApp" */;
 			buildPhases = (
+				523653FA1E28A10D00999DB9 /* SwiftGen */,
 				F836AEAF4BB00252FEDF947A /* [CP] Check Pods Manifest.lock */,
 				5273A49A1E2719F300633F6A /* Sources */,
 				5273A49B1E2719F300633F6A /* Frameworks */,
@@ -168,7 +166,6 @@
 				20F12D18267F8CA3CF4FAC8D /* [CP] Embed Pods Frameworks */,
 				DEC1ED68BB4104DA2039DDA5 /* [CP] Copy Pods Resources */,
 				522467891E289DEC004C2AB7 /* SwiftLint */,
-				523653FA1E28A10D00999DB9 /* SwiftGen */,
 			);
 			buildRules = (
 			);
@@ -319,7 +316,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "type $PODS_ROOT/SwiftGen/bin/swiftgen >/dev/null 2>&1 || { echo \"warning: SwiftGen not installed, download it from https://github.com/AliSoftware/SwiftGen\"\n}\n\n$PODS_ROOT/SwiftGen/bin/swiftgen -t swift3 storyboards \"$PROJECT_DIR\" --output \"$PROJECT_DIR/AnotherFeedlyApp/Constants/Storyboards.swift\"\n$PODS_ROOT/SwiftGen/bin/swiftgen images -t swift3 \"$PROJECT_DIR/AnotherFeedlyApp/Assets.xcassets\" --output \"$PROJECT_DIR/AnotherFeedlyApp/Constants/Images.swift\"";
+			shellScript = "type $PODS_ROOT/SwiftGen/bin/swiftgen >/dev/null 2>&1 || { echo \"warning: SwiftGen not installed, download it from https://github.com/AliSoftware/SwiftGen\"\n}\n\n$PODS_ROOT/SwiftGen/bin/swiftgen storyboards -t swift3 \"$PROJECT_DIR\" --output \"$PROJECT_DIR/AnotherFeedlyApp/Constants/Storyboards.swift\"\n$PODS_ROOT/SwiftGen/bin/swiftgen images -t swift3 \"$PROJECT_DIR/AnotherFeedlyApp/Assets.xcassets\" --output \"$PROJECT_DIR/AnotherFeedlyApp/Constants/Images.swift\"";
 		};
 		5D5885FD7A70C29AD17505C1 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -388,7 +385,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5273A4A41E2719F300633F6A /* ViewController.swift in Sources */,
 				529AABD61E287088000C62A1 /* Spotify.swift in Sources */,
 				529AABE61E288F21000C62A1 /* main.swift in Sources */,
 				52EEB52A1E28A3DC00F55421 /* Storyboards.swift in Sources */,
