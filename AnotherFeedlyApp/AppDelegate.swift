@@ -1,9 +1,6 @@
 import UIKit
 
-class TestingAppDelegate: UIResponder, UIApplicationDelegate {
-
-}
-
+@objc(AppDelegate)
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow? = AppDelegate.configureWindow()
@@ -30,4 +27,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window.makeKeyAndVisible()
         return window
     }
+}
+
+@objc(TestingAppDelegate)
+class TestingAppDelegate: UIResponder, UIApplicationDelegate {
+
 }
