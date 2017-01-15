@@ -160,8 +160,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5273A4B01E2719F400633F6A /* Build configuration list for PBXNativeTarget "AnotherFeedlyApp" */;
 			buildPhases = (
-				523653FA1E28A10D00999DB9 /* SwiftGen */,
 				F836AEAF4BB00252FEDF947A /* [CP] Check Pods Manifest.lock */,
+				523653FA1E28A10D00999DB9 /* SwiftGen */,
 				5273A49A1E2719F300633F6A /* Sources */,
 				5273A49B1E2719F300633F6A /* Frameworks */,
 				5273A49C1E2719F300633F6A /* Resources */,
