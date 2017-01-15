@@ -52,3 +52,59 @@ class AppCoordinatorTests: XCTestCase {
         XCTAssertNotNil(window.rootViewController)
     }
 }
+
+class SignInWebViewDelegateTests: XCTestCase {
+
+    var webView: UIWebView!
+    let otherAction = UIWebViewNavigationType.other
+
+    lazy var exp: XCTestExpectation = { self.expectation(description: "Sign In Completion Called") }()
+    lazy var signInCompletion: () -> Void = { self.exp.fulfill() }
+
+    override func setUp() {
+        super.setUp()
+        webView = UIWebView()
+    }
+
+    override func tearDown() {
+        webView = nil
+        super.tearDown()
+    }
+
+    func testShouldLoadRequestWhichIsRedirect() {
+
+        //we don't care about the completion handler for this test
+        let webDelegate = SignInWebViewDelegate(signInComplete: { _ in return },
+                                                redirectURI: "myRedirectURI")
+        let request = URLRequest(url: URL(string:"https://www.google.com")!)
+
+        let result = webDelegate.webView(webView, shouldStartLoadWith: request, navigationType: otherAction)
+        XCTAssert(result == true, "WebView should load google")
+    }
+
+    func testShouldNotLoadURLSMatchingOurRedirectURI() {
+        //we don't care about the completion handler for this test
+        let webDelegate = SignInWebViewDelegate(signInComplete: { _ in return },
+                                                redirectURI: "myRedirectURI")
+        let request = URLRequest(url: URL(string:"myRedirectURI://auth/somecodes&keys=here")!)
+
+        let result = webDelegate.webView(webView, shouldStartLoadWith: request, navigationType: otherAction)
+        XCTAssert(result == false, "WebView should not load if new url matches our redirect URI")
+    }
+
+    func testThatTheWebDelegateCallsOurCompletionHandlerWhenARedirectIsDetected() {
+
+        let webDelegate = SignInWebViewDelegate(signInComplete: signInCompletion,
+                                                redirectURI: "myRedirectURI")
+        let request = URLRequest(url: URL(string:"myRedirectURI://auth/somecodes&keys=here")!)
+
+        let _ = webDelegate.webView(webView, shouldStartLoadWith: request, navigationType: otherAction)
+
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                print("Error: \(error)")
+            }
+        }
+    }
+
+}
