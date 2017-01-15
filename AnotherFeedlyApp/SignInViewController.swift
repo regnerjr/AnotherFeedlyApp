@@ -5,7 +5,7 @@ class SignInViewController: UIViewController {
     @IBOutlet weak var webView: UIWebView!
     weak var webViewDelegate: UIWebViewDelegate?
 
-    let spotify = Spotify()
+    let spotify = Spotify(auth: Auth())
 
     override func viewDidLoad() {
         webView.delegate = webViewDelegate
@@ -16,9 +16,11 @@ class SignInViewController: UIViewController {
 class SignInWebViewDelegate: NSObject, UIWebViewDelegate {
 
     let signInComplete: (() -> Void)
+    let redirectURI: String
 
-    init(signInComplete: @escaping (() -> Void)) {
+    init(signInComplete: @escaping (() -> Void), redirectURI: String) {
         self.signInComplete = signInComplete
+        self.redirectURI = redirectURI
         super.init()
     }
 
@@ -39,7 +41,7 @@ class SignInWebViewDelegate: NSObject, UIWebViewDelegate {
             return false
         }
 
-        if url.absoluteString.hasPrefix(Auth.redirectUri) {
+        if url.absoluteString.hasPrefix(redirectURI) {
             return true
         }
         return false
