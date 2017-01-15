@@ -3,7 +3,7 @@ import Foundation
 enum Auth {
     static let clientId = "sandbox"
     static let clientSecret = "R26NGS2Q9NAPSEJHCXM3"
-    static let redirectUri = "http://localhost/"
+    static let redirectUri = "https://localhost/"
     static let scope = "https://cloud.feedly.com/subscriptions"
 }
 
