@@ -1,10 +1,11 @@
 import Foundation
+import Keys
 
-enum Auth {
-    static let clientId = "sandbox"
-    static let clientSecret = "R26NGS2Q9NAPSEJHCXM3"
-    static let redirectUri = "https://localhost/"
-    static let scope = "https://cloud.feedly.com/subscriptions"
+struct Auth {
+    let clientId = AnotherFeedlyAppKeys().sPOTIFY_CLIENT_ID
+    let clientSecret = AnotherFeedlyAppKeys().sPOTIFY_CLIENT_SECRET
+    let redirectUri = "https://localhost/"
+    let scope = "https://cloud.feedly.com/subscriptions"
 }
 
 struct Spotify {
