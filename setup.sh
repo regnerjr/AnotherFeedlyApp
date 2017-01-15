@@ -1,0 +1,3 @@
+bundle install
+
+pod install
