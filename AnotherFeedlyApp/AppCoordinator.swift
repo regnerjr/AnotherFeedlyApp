@@ -4,6 +4,9 @@ class AppCoordinator {
 
     let window: UIWindow
 
+    let auth = Auth()
+    lazy var spotify: Spotify = {Spotify(auth: self.auth)}()
+
     init(window: UIWindow) {
         self.window = window
     }
@@ -12,8 +15,8 @@ class AppCoordinator {
 
         let signInVC = StoryboardScene.Main.instantiateSignInViewController()
         let signInWebViewDelegate = SignInWebViewDelegate(signInComplete: signInComplete,
-                                                          redirectURI: Auth().redirectUri)
-
+                                                          redirectURI: auth.redirectUri)
+        signInVC.spotify = spotify
         signInVC.webViewDelegate = signInWebViewDelegate
         window.rootViewController = signInVC
     }

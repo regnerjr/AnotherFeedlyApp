@@ -5,9 +5,12 @@ class SignInViewController: UIViewController {
     @IBOutlet weak var webView: UIWebView!
     weak var webViewDelegate: UIWebViewDelegate?
 
-    let spotify = Spotify(auth: Auth())
+    var spotify: Spotify!
 
     override func viewDidLoad() {
+        guard spotify != nil else {
+            fatalError("🐛Spotify Object Not Initialized")
+        }
         webView.delegate = webViewDelegate
         webView.loadRequest(spotify.signInRequest)
     }
