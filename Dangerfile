@@ -20,5 +20,6 @@ fail "Please provide a summary in the Pull Request description" if github.pr_bod
 xcov.report(
   scheme: 'AnotherFeedlyApp',
   workspace: 'AnotherFeedlyApp.xcworkspace',
+  ignore_file_path: '.xcovignore',
   minimum_coverage_percentage: 45
 )
