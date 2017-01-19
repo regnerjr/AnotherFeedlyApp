@@ -1,0 +1,2 @@
+ignore:
+  - "AnotherFeedlyApp/Constants" # ignore SwiftGen Files
