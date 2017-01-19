@@ -14,6 +14,8 @@ if !declared_trivial && !git.modified_files.include?("CHANGELOG.md") && has_app_
   message "Note, we hard-wrap at 80 chars and use 2 spaces after the last line."
 end
 
+fail "Please provide a summary in the Pull Request description" if github.pr_body.length < 5
+
 # Don't let testing shortcuts get into master by accident
 fail("fdescribe left in tests") if `grep -r fdescribe specs/ `.length > 1
 fail("fit left in tests") if `grep -r fit specs/ `.length > 1
