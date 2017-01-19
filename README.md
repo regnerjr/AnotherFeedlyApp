@@ -4,6 +4,27 @@
 
 You can use this app (when it's finished) to browse and read Blogs and stuff.
 
-The real value here is, the setup and the architectural patterns we are trying out here
+The real value here is, the setup, the tools and the architectural patterns we are trying out here.
 
-This app is a test bed for some new app architecture and other stuff I want to try out.
+## Tools
+
+### Code Gen
+SwiftGen
+
+### Continuous Integration
+Bitrise
+Danger
+Swiftlint
+Hound
+
+### Actual Code Things
+
+Use a separate `UIApplicationDelegate` for testing.
+
+Actually write some tests.
+
+Use coordinators, to manage your view controllers.
+
+Turn on all the warnings.
+
+
