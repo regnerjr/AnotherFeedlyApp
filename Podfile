@@ -1,11 +1,3 @@
-plugin 'cocoapods-keys', {
-  :project => "AnotherFeedlyApp",
-  :keys => [
-    "SPOTIFY_CLIENT_ID",
-    "SPOTIFY_CLIENT_SECRET",
-  ]
-}
-
 target 'AnotherFeedlyApp' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!

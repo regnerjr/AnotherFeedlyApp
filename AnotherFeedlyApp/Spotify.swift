@@ -1,11 +1,24 @@
 import Foundation
-import Keys
+
+let kClientKey = "FEEDLY_CLIENT"
+let kFeedlySecretKey = "FEEDLY_SECRET"
 
 struct Auth {
-    let clientId = AnotherFeedlyAppKeys().sPOTIFY_CLIENT_ID
-    let clientSecret = AnotherFeedlyAppKeys().sPOTIFY_CLIENT_SECRET
     let redirectUri = "https://localhost/"
     let scope = "https://cloud.feedly.com/subscriptions"
+    var clientId: String {
+        guard let client = ProcessInfo.processInfo.environment[kClientKey] else {
+            fatalError("🐛 ERROR: No Environment variable \(kClientKey)")
+        }
+        return client
+    }
+
+    var clientSecret: String {
+        guard let client = ProcessInfo.processInfo.environment[kFeedlySecretKey] else {
+            fatalError("🐛 ERROR: No Environment variable \(kFeedlySecretKey)")
+        }
+        return client
+    }
 }
 
 struct Spotify {

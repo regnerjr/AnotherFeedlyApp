@@ -1,22 +1,15 @@
 PODS:
-  - Keys (1.0.0)
   - SwiftGen (4.1.0)
   - SwiftLint (0.16.0)
 
 DEPENDENCIES:
-  - Keys (from `Pods/CocoaPodsKeys`)
   - SwiftGen
   - SwiftLint
 
-EXTERNAL SOURCES:
-  Keys:
-    :path: Pods/CocoaPodsKeys
-
 SPEC CHECKSUMS:
-  Keys: 9c35bf00f612ee1d48556f4a4b9b4551e224e90f
   SwiftGen: d29fd8b7aa52092411d415fb09d0abd3d79ea1a5
   SwiftLint: 90665265ae50b58167c674a11c680bbabe9d6513
 
-PODFILE CHECKSUM: 9819378e5546039e39e28dcb2c7d412bc93a6594
+PODFILE CHECKSUM: 3c58a553354fc249495c234dda658e1370daa16b
 
 COCOAPODS: 1.1.1
