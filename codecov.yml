@@ -1,2 +1,3 @@
 ignore:
   - "AnotherFeedlyApp/Constants" # ignore SwiftGen Files
+  - "AnotherFeedlyAppTests" # ignore test files
