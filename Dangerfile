@@ -17,8 +17,3 @@ end
 
 fail "Please provide a summary in the Pull Request description" if github.pr_body.length < 5
 
-xcov.report(
-  scheme: 'AnotherFeedlyApp',
-  workspace: 'AnotherFeedlyApp.xcworkspace',
-  minimum_coverage_percentage: 45
-)
