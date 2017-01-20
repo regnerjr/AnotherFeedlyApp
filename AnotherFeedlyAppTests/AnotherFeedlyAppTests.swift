@@ -23,13 +23,6 @@ class AppDelegateTests: XCTestCase {
         XCTAssertNotNil(appDelegate.appCoordinator)
     }
 
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }
 
 class AppCoordinatorTests: XCTestCase {
@@ -106,5 +99,60 @@ class SignInWebViewDelegateTests: XCTestCase {
             }
         }
     }
+}
 
+class MockDelegate: NSObject, UIWebViewDelegate {
+    let loadCompletion: () -> Void
+    init(completion: @escaping () -> Void) {
+        loadCompletion = completion
+    }
+    func webView(_ webView: UIWebView,
+                 shouldStartLoadWith request: URLRequest,
+                 navigationType: UIWebViewNavigationType) -> Bool {
+        loadCompletion()
+        return true
+    }
+}
+
+class SignInViewControllerTests: XCTestCase {
+    override func setUp() {
+        super.setUp()
+        //perform setup
+    }
+    override func tearDown() {
+        // perform tear down
+        super.tearDown()
+    }
+
+    func testViewDidLoadSetsUpWebDelegate() {
+
+        let auth = Auth()
+        let signIn = StoryboardScene.Main.instantiateSignInViewController()
+        let delegate = SignInWebViewDelegate(signInComplete: { }, redirectURI: "Whatever")
+        signIn.webViewDelegate = delegate
+        signIn.spotify = Spotify(auth: auth)
+
+        _ = signIn.view
+
+        XCTAssertNotNil(signIn.webView.delegate)
+    }
+
+    func testViewDidLoadStartsWebLoad() {
+
+        let exp: XCTestExpectation = { self.expectation(description: "WebViewLoads") }()
+
+        let auth = Auth()
+        let mock = MockDelegate { exp.fulfill() }
+        let signIn = StoryboardScene.Main.instantiateSignInViewController()
+        signIn.webViewDelegate = mock
+        signIn.spotify = Spotify(auth: auth)
+
+        _ = signIn.view
+
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                print("Error: \(error)")
+            }
+        }
+    }
 }
