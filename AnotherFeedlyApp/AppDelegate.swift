@@ -3,7 +3,7 @@ import UIKit
 @objc(AppDelegate)
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var window: UIWindow? = AppDelegate.configureWindow()
+    var window: UIWindow? = UIWindow.configure()
 
     lazy var appCoordinator: AppCoordinator = {
         guard let window = self.window else {
@@ -13,14 +13,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }()
 
     func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]? = nil)
-        -> Bool {
-
+                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]? = nil) -> Bool {
         appCoordinator.appLaunched(options: launchOptions)
         return true
     }
+}
 
-    static func configureWindow() -> UIWindow {
+extension UIWindow {
+    static func configure() -> UIWindow {
         let screenFrame = UIScreen.main.bounds
         let window = UIWindow(frame: screenFrame)
         window.backgroundColor = .blue
