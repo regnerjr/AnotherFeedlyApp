@@ -21,8 +21,11 @@ class AppCoordinator {
         window.rootViewController = signInVC
     }
 
-    func signInComplete() {
-        print("😎 Sign In Is Complete and The Coordinator Knows it")
+    func signInComplete(code: String?) {
+
+        //need to now try to get an auth Token
+        // POST /v3/auth/token
+
     }
 
 }

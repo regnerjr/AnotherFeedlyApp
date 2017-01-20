@@ -18,10 +18,10 @@ class SignInViewController: UIViewController {
 
 class SignInWebViewDelegate: NSObject, UIWebViewDelegate {
 
-    let signInComplete: (() -> Void)
+    let signInComplete: ((String?) -> Void)
     let redirectURI: String
 
-    init(signInComplete: @escaping (() -> Void), redirectURI: String) {
+    init(signInComplete: @escaping ((String?) -> Void), redirectURI: String) {
         self.signInComplete = signInComplete
         self.redirectURI = redirectURI
         super.init()
@@ -31,7 +31,8 @@ class SignInWebViewDelegate: NSObject, UIWebViewDelegate {
                  navigationType: UIWebViewNavigationType) -> Bool {
 
         if isSignInRedirect(request: request) {
-            signInComplete()
+            let code = request.extractCode()
+            signInComplete(code)
             return false
         }
 
@@ -48,5 +49,19 @@ class SignInWebViewDelegate: NSObject, UIWebViewDelegate {
             return true
         }
         return false
+    }
+}
+
+extension URLRequest {
+    func extractCode() -> String? {
+        guard let url = url else { return nil }
+        let components = NSURLComponents(string: url.absoluteString)
+        guard let items = components?.queryItems else {
+            return nil
+        }
+        let code = items.filter { (item) -> Bool in
+            return item.name == "code"
+        }
+        return code.first?.value
     }
 }

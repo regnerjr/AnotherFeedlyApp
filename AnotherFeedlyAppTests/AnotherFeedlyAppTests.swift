@@ -26,6 +26,7 @@ class AppDelegateTests: XCTestCase {
 }
 
 class AppCoordinatorTests: XCTestCase {
+
     override func setUp() {
         super.setUp()
         // do setup
@@ -46,13 +47,26 @@ class AppCoordinatorTests: XCTestCase {
     }
 }
 
+class MockDelegate: NSObject, UIWebViewDelegate {
+    var loadStarted: (() -> Void)
+    init(loadStarted: @escaping (() -> Void)) {
+        self.loadStarted = loadStarted
+    }
+    func webView(_ webView: UIWebView,
+                 shouldStartLoadWith request: URLRequest,
+                 navigationType: UIWebViewNavigationType) -> Bool {
+        loadStarted()
+        return true
+    }
+}
+
 class SignInWebViewDelegateTests: XCTestCase {
 
     var webView: UIWebView!
     let otherAction = UIWebViewNavigationType.other
 
     lazy var exp: XCTestExpectation = { self.expectation(description: "Sign In Completion Called") }()
-    lazy var signInCompletion: () -> Void = { self.exp.fulfill() }
+    lazy var signInCompletion: (String?) -> Void = { _ in self.exp.fulfill() }
 
     override func setUp() {
         super.setUp()
@@ -101,19 +115,6 @@ class SignInWebViewDelegateTests: XCTestCase {
     }
 }
 
-class MockDelegate: NSObject, UIWebViewDelegate {
-    let loadCompletion: () -> Void
-    init(completion: @escaping () -> Void) {
-        loadCompletion = completion
-    }
-    func webView(_ webView: UIWebView,
-                 shouldStartLoadWith request: URLRequest,
-                 navigationType: UIWebViewNavigationType) -> Bool {
-        loadCompletion()
-        return true
-    }
-}
-
 class SignInViewControllerTests: XCTestCase {
     override func setUp() {
         super.setUp()
@@ -128,7 +129,7 @@ class SignInViewControllerTests: XCTestCase {
 
         let auth = Auth()
         let signIn = StoryboardScene.Main.instantiateSignInViewController()
-        let delegate = SignInWebViewDelegate(signInComplete: { }, redirectURI: "Whatever")
+        let delegate = SignInWebViewDelegate(signInComplete: { _ in }, redirectURI: "Whatever")
         signIn.webViewDelegate = delegate
         signIn.spotify = Spotify(auth: auth)
 
@@ -155,4 +156,23 @@ class SignInViewControllerTests: XCTestCase {
             }
         }
     }
+}
+
+class CodeExtraction: XCTestCase {
+
+    func testGoodExtract() {
+
+        let matchingCode = "AQAA7rJ7InAiOjEsImEiOiJmZWVk"
+        let stringUrl = "https://your.redirect.uri/feedlyCallback?code=\(matchingCode)&state=state.passed.in"
+
+        guard let url = URL(string: stringUrl) else {
+            XCTFail("HMM URL Is invalid"); return
+        }
+        let request = URLRequest(url: url)
+
+        let code = request.extractCode()
+
+        XCTAssertEqual(code, matchingCode)
+    }
+
 }
