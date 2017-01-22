@@ -3,16 +3,16 @@
 # Pretty much just a Feedly App
 
 You can use this app (when it's finished) to browse and read Blogs and stuff.
-
-The real value here is, the setup, the tools and the architectural patterns we are trying out here.
+The real value here is, the setup, the tools and the architectural patterns we are trying out here. I really felt that I need a full working app where I could really experment with things, and perhaps we'll get to the point where we can extract out some nice frameworks and things.
 
 ## Tools
 
 ### Code Gen
-SwiftGen
+[SwiftGen](https://github.com/AliSoftware/SwiftGen) - Compile time generation of Storyboard and Image Constants.
+[Cocoapods-Keys](https://github.com/orta/cocoapods-keys) - Manages Keys and app secrets, without commiting them to `git`.
 
 ### Continuous Integration
-Bitrise
+[Bitrise](http://bitrise.io)
 Danger
 Swiftlint
 Hound
