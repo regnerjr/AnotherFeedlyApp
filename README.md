@@ -8,14 +8,14 @@ The real value here is, the setup, the tools and the architectural patterns we a
 ## Tools
 
 ### Code Gen
-[SwiftGen](https://github.com/AliSoftware/SwiftGen) - Compile time generation of Storyboard and Image Constants.
-[Cocoapods-Keys](https://github.com/orta/cocoapods-keys) - Manages Keys and app secrets, without commiting them to `git`.
+* [SwiftGen](https://github.com/AliSoftware/SwiftGen) - Compile time generation of Storyboard and Image Constants.
+* [Cocoapods-Keys](https://github.com/orta/cocoapods-keys) - Manages Keys and app secrets, without commiting them to `git`.
 
 ### Continuous Integration
-[Bitrise](http://bitrise.io)
-Danger
-Swiftlint
-Hound
+* [Bitrise](http://bitrise.io)
+* Danger
+* Swiftlint
+* Hound
 
 ### Actual Code Things
 
