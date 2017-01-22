@@ -175,4 +175,44 @@ class CodeExtraction: XCTestCase {
         XCTAssertEqual(code, matchingCode)
     }
 
+    func testTokenRequestJSONHasRightForm() {
+        let code = "12345"
+
+        let auth = Auth()
+        let spotify = Spotify(auth: auth)
+
+        let json = spotify.tokenRequestJSON(code: code)
+        guard let unSerialized = try? JSONSerialization.jsonObject(with: json, options: []) else {
+            fatalError("json data cant be de-serialized")
+        }
+        let unSerializedDict = unSerialized as? [String: Any]
+        XCTAssertEqual(unSerializedDict?["code"] as? String, code)
+    }
+
+    func testBuildRequestJSON() {
+
+        let exp: XCTestExpectation = { self.expectation(description: "") }()
+        let auth = Auth()
+        let spotify = Spotify(auth: auth)
+
+        spotify.requestToken(withCode: "123456", completion: { exp.fulfill() })
+        let req = spotify.tokenRequest(code: "12345")
+
+        XCTAssert(req.httpMethod == "POST")
+        XCTAssertNotNil(req.httpBody)
+        XCTAssertEqual(req.url?.absoluteString.contains("auth/token"), true)
+
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                print("Error: \(error)")
+            }
+        }
+
+    }
+
 }
+
+// What we really need to do is take the code that we got back, and put in in a json dict,
+// then POST that dict to /v2/auth/token
+
+// Then from that response we make a little user with a token.
