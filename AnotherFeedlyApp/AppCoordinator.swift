@@ -22,6 +22,7 @@ class AppCoordinator {
     }
 
     func signInComplete(code: String?) {
+        print("OMG Sign In Complete")
 
         //need to now try to get an auth Token
         // POST /v3/auth/token
