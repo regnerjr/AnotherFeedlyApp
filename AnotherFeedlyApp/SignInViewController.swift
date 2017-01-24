@@ -3,7 +3,7 @@ import UIKit
 class SignInViewController: UIViewController {
 
     @IBOutlet weak var webView: UIWebView!
-    weak var webViewDelegate: UIWebViewDelegate?
+    var webViewDelegate: UIWebViewDelegate? //swiftlint:disable:this weak_delegate
 
     var spotify: Spotify!
 
