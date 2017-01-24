@@ -8,6 +8,7 @@ class SignInViewController: UIViewController {
     var spotify: Spotify!
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         guard spotify != nil else {
             fatalError("🐛Spotify Object Not Initialized")
         }
