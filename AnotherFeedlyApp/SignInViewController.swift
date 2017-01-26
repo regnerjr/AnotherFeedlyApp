@@ -32,7 +32,7 @@ class SignInWebViewDelegate: NSObject, UIWebViewDelegate {
                  navigationType: UIWebViewNavigationType) -> Bool {
 
         if isSignInRedirect(request: request) {
-            let code = request.extractCode()
+            let code = request.extractAuthCodeFromRedirect()
             signInComplete(code)
             return false
         }
@@ -51,10 +51,11 @@ class SignInWebViewDelegate: NSObject, UIWebViewDelegate {
         }
         return false
     }
+
 }
 
 extension URLRequest {
-    func extractCode() -> String? {
+    func extractAuthCodeFromRedirect() -> String? {
         guard let url = url else { return nil }
         let components = NSURLComponents(string: url.absoluteString)
         guard let items = components?.queryItems else {

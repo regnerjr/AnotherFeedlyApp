@@ -170,7 +170,7 @@ class CodeExtraction: XCTestCase {
         }
         let request = URLRequest(url: url)
 
-        let code = request.extractCode()
+        let code = request.extractAuthCodeFromRedirect()
 
         XCTAssertEqual(code, matchingCode)
     }
@@ -207,9 +207,7 @@ class CodeExtraction: XCTestCase {
                 print("Error: \(error)")
             }
         }
-
     }
-
 }
 
 // What we really need to do is take the code that we got back, and put in in a json dict,
