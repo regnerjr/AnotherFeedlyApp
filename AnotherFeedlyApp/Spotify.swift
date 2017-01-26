@@ -1,9 +1,11 @@
 import Foundation
 
+fileprivate let defaultSession = URLSession(configuration: URLSessionConfiguration.default)
 
 struct Spotify {
 
     let auth: Auth
+    let session: URLSession
 
     let base = "https://sandbox.feedly.com"
     let signInPath = "/v3/auth/auth"
@@ -11,6 +13,11 @@ struct Spotify {
 
     var signInRequest: URLRequest {
         return URLRequest(url: signInURL)
+    }
+
+    init(auth: Auth, session: URLSession = defaultSession) {
+        self.auth = auth
+        self.session = session
     }
 
     /// https://developer.feedly.com/v3/auth/#authenticating-a-user-and-obtaining-an-auth-code
@@ -24,6 +31,12 @@ struct Spotify {
         url.path = self.signInPath
         url.queryItems = [ response_type, client_id, redirect_uri, scope]
         return url.url!
+    }
+
+    func requestToken(withCode code: String, completion: @escaping (TokenResponse) -> Void) {
+        let req = tokenRequest(code: code)
+        let task = session.dataTask(with: req, completionHandler: tokenResponseHandler(completion))
+        task.resume()
     }
 
     /// https://developer.feedly.com/v3/auth/#exchanging-an-auth-code-for-a-refresh-token-and-an-access-token
@@ -52,8 +65,38 @@ struct Spotify {
         return req
     }
 
-    func requestToken(withCode code: String, completion:() -> Void) {
+    typealias NetworkHandler = (Data?, URLResponse?, Error?) -> Void
 
-        completion()
+    func tokenResponseHandler(_ completion: @escaping ((TokenResponse) -> Void)) -> NetworkHandler {
+
+        func handleNetworkResponse(data: Data?, response: URLResponse?, err: Error?) {
+            guard err == nil else {
+                print("\((err as? NSError)?.localizedDescription)")
+                return //feel like we need some kind of error completion here
+            }
+
+            if  let response = response,
+                let urlResponse = response as? HTTPURLResponse {
+                print(urlResponse.statusCode)
+            }
+
+            guard let data = data else {
+                fatalError("False: No data from token Request")
+            }
+
+            let tokenResponse = TokenResponse(data: data)
+            completion(tokenResponse)
+        }
+        return handleNetworkResponse
     }
+}
+
+struct TokenResponse {
+
+    init(data: Data) {
+        let json = try? JSONSerialization.jsonObject(with: data, options: [])
+        print("🏄🏄🏄🏄🏄🏄🏄🏄🏄🏄🏄")
+        print(json)
+    }
+
 }

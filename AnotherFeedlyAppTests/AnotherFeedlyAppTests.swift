@@ -171,7 +171,7 @@ class CodeExtraction: XCTestCase {
         let auth = Auth()
         let spotify = Spotify(auth: auth)
 
-        spotify.requestToken(withCode: "123456", completion: { exp.fulfill() })
+        spotify.requestToken(withCode: "123456", completion: { _ in exp.fulfill() })
         let req = spotify.tokenRequest(code: "12345")
 
         XCTAssert(req.httpMethod == "POST")
