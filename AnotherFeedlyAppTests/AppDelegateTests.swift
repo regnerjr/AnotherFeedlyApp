@@ -22,5 +22,5 @@ class AppDelegateTests: XCTestCase {
     func testAppDelegateHasCoordinator() {
         XCTAssertNotNil(appDelegate.appCoordinator)
     }
-    
+
 }

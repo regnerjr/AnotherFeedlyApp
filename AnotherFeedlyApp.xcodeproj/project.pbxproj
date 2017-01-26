@@ -18,6 +18,7 @@
 		529AABE61E288F21000C62A1 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529AABE51E288F21000C62A1 /* main.swift */; };
 		529F8B5E1E39AF3F00229F56 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529F8B5D1E39AF3F00229F56 /* Auth.swift */; };
 		529F8B601E39B22400229F56 /* AppDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529F8B5F1E39B22400229F56 /* AppDelegateTests.swift */; };
+		529F8B621E39CA2200229F56 /* AppCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529F8B611E39CA2200229F56 /* AppCoordinatorTests.swift */; };
 		52EEB52A1E28A3DC00F55421 /* Storyboards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EEB5291E28A3DC00F55421 /* Storyboards.swift */; };
 		52EEB52C1E28A40F00F55421 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EEB52B1E28A40F00F55421 /* Images.swift */; };
 		52EEB52F1E28AAA000F55421 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EEB52E1E28AAA000F55421 /* AppCoordinator.swift */; };
@@ -54,6 +55,7 @@
 		529AABE51E288F21000C62A1 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		529F8B5D1E39AF3F00229F56 /* Auth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		529F8B5F1E39B22400229F56 /* AppDelegateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegateTests.swift; sourceTree = "<group>"; };
+		529F8B611E39CA2200229F56 /* AppCoordinatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinatorTests.swift; sourceTree = "<group>"; };
 		52EEB5291E28A3DC00F55421 /* Storyboards.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Storyboards.swift; path = Constants/Storyboards.swift; sourceTree = "<group>"; };
 		52EEB52B1E28A40F00F55421 /* Images.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Images.swift; path = Constants/Images.swift; sourceTree = "<group>"; };
 		52EEB52E1E28AAA000F55421 /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 		529AABDC1E287109000C62A1 /* AnotherFeedlyAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				529F8B611E39CA2200229F56 /* AppCoordinatorTests.swift */,
 				529AABDD1E287109000C62A1 /* AnotherFeedlyAppTests.swift */,
 				529F8B5F1E39B22400229F56 /* AppDelegateTests.swift */,
 				529AABDF1E287109000C62A1 /* Info.plist */,
@@ -414,6 +417,7 @@
 			files = (
 				529F8B601E39B22400229F56 /* AppDelegateTests.swift in Sources */,
 				529AABDE1E287109000C62A1 /* AnotherFeedlyAppTests.swift in Sources */,
+				529F8B621E39CA2200229F56 /* AppCoordinatorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
