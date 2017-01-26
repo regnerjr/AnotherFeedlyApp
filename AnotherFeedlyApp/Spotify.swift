@@ -43,7 +43,7 @@ struct Spotify {
     func tokenRequestJSON(code: String) -> Data {
         let dict = [
             "code": code,
-            "client_ID": auth.clientId,
+            "client_id": auth.clientId,
             "client_secret": auth.clientSecret,
             "redirect_uri": auth.redirectUri,
             "state": "",
@@ -54,13 +54,12 @@ struct Spotify {
     }
 
     func tokenRequest(code: String) -> URLRequest {
-        var maybeURL = URLComponents(string: base)
-        maybeURL?.path = tokenPath
-        guard let url = maybeURL?.url else {
-            fatalError("Can't build Token Request URL")
+        guard let url = URL(string: base + tokenPath) else {
+           fatalError("Can't build Token Request URL")
         }
         var req = URLRequest(url: url)
         req.httpMethod = "POST"
+        req.addValue("application/json", forHTTPHeaderField: "Content-Type")
         req.httpBody = tokenRequestJSON(code: code)
         return req
     }
