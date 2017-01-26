@@ -33,7 +33,7 @@ struct Spotify {
         return url.url!
     }
 
-    func requestToken(withCode code: String, completion: @escaping (TokenResponse) -> Void) {
+    func requestToken(withCode code: String, completion: @escaping (FeedlyToken) -> Void) {
         let req = tokenRequest(code: code)
         let task = session.dataTask(with: req, completionHandler: tokenResponseHandler(completion))
         task.resume()
@@ -66,7 +66,7 @@ struct Spotify {
 
     typealias NetworkHandler = (Data?, URLResponse?, Error?) -> Void
 
-    func tokenResponseHandler(_ completion: @escaping ((TokenResponse) -> Void)) -> NetworkHandler {
+    func tokenResponseHandler(_ completion: @escaping ((FeedlyToken) -> Void)) -> NetworkHandler {
 
         func handleNetworkResponse(data: Data?, response: URLResponse?, err: Error?) {
             guard err == nil else {
@@ -83,14 +83,14 @@ struct Spotify {
                 fatalError("False: No data from token Request")
             }
 
-            let tokenResponse = TokenResponse(data: data)
+            let tokenResponse = FeedlyToken(data: data)
             completion(tokenResponse)
         }
         return handleNetworkResponse
     }
 }
 
-struct TokenResponse {
+struct FeedlyToken {
 
     init(data: Data) {
         let json = try? JSONSerialization.jsonObject(with: data, options: [])
