@@ -5,7 +5,7 @@ class AppCoordinator {
     let window: UIWindow
 
     let auth = Auth()
-    lazy var spotify: Spotify = {Spotify(auth: self.auth)}()
+    lazy var feedly: Feedly = { Feedly(auth: self.auth) }()
 
     init(window: UIWindow) {
         self.window = window
@@ -16,7 +16,7 @@ class AppCoordinator {
         let signInVC = StoryboardScene.Main.instantiateSignInViewController()
         let signInWebViewDelegate = SignInWebViewDelegate(signInComplete: signInComplete,
                                                           redirectURI: auth.redirectUri)
-        signInVC.spotify = spotify
+        signInVC.feedly = feedly
         signInVC.webViewDelegate = signInWebViewDelegate
         window.rootViewController = signInVC
     }
@@ -29,14 +29,14 @@ class AppCoordinator {
             return
         }
 
-        spotify.requestToken(withCode: code, completion: saveToken)
+        feedly.requestToken(withCode: code, completion: saveToken)
 
         //need to now try to get an auth Token
         // POST /v3/auth/token
 
     }
 
-    func saveToken(token: TokenResponse) {
+    func saveToken(token: FeedlyToken) {
         print("SavingToken")
     }
 

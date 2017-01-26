@@ -2,7 +2,7 @@ import Foundation
 
 fileprivate let defaultSession = URLSession(configuration: URLSessionConfiguration.default)
 
-struct Spotify {
+struct Feedly {
 
     let auth: Auth
     let session: URLSession

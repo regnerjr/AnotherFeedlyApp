@@ -85,7 +85,7 @@ class SignInViewControllerTests: XCTestCase {
         let signIn = StoryboardScene.Main.instantiateSignInViewController()
         let delegate = SignInWebViewDelegate(signInComplete: { _ in }, redirectURI: "Whatever")
         signIn.webViewDelegate = delegate
-        signIn.spotify = Spotify(auth: auth)
+        signIn.feedly = Feedly(auth: auth)
 
         _ = signIn.view
 
@@ -100,7 +100,7 @@ class SignInViewControllerTests: XCTestCase {
         let mock = MockDelegate { exp.fulfill() }
         let signIn = StoryboardScene.Main.instantiateSignInViewController()
         signIn.webViewDelegate = mock
-        signIn.spotify = Spotify(auth: auth)
+        signIn.feedly = Feedly(auth: auth)
 
         _ = signIn.view
 
@@ -133,9 +133,9 @@ class CodeExtraction: XCTestCase {
         let code = "12345"
 
         let auth = Auth()
-        let spotify = Spotify(auth: auth)
+        let feedly = Feedly(auth: auth)
 
-        let json = spotify.tokenRequestJSON(code: code)
+        let json = feedly.tokenRequestJSON(code: code)
         guard let unSerialized = try? JSONSerialization.jsonObject(with: json, options: []) else {
             fatalError("json data cant be de-serialized")
         }
@@ -147,10 +147,10 @@ class CodeExtraction: XCTestCase {
 
         let exp: XCTestExpectation = { self.expectation(description: "") }()
         let auth = Auth()
-        let spotify = Spotify(auth: auth)
+        let feedly = Feedly(auth: auth)
 
-        spotify.requestToken(withCode: "123456", completion: { _ in exp.fulfill() })
-        let req = spotify.tokenRequest(code: "12345")
+        feedly.requestToken(withCode: "123456", completion: { _ in exp.fulfill() })
+        let req = feedly.tokenRequest(code: "12345")
 
         XCTAssert(req.httpMethod == "POST")
         XCTAssertNotNil(req.httpBody)

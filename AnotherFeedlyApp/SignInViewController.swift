@@ -5,15 +5,15 @@ class SignInViewController: UIViewController {
     @IBOutlet weak var webView: UIWebView!
     var webViewDelegate: UIWebViewDelegate? //swiftlint:disable:this weak_delegate
 
-    var spotify: Spotify!
+    var feedly: Feedly!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard spotify != nil else {
-            fatalError("🐛Spotify Object Not Initialized")
+        guard feedly != nil else {
+            fatalError("🐛Feedly Object Not Initialized")
         }
         webView.delegate = webViewDelegate
-        webView.loadRequest(spotify.signInRequest)
+        webView.loadRequest(feedly.signInRequest)
     }
 }
 
