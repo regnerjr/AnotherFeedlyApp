@@ -24,9 +24,20 @@ class AppCoordinator {
     func signInComplete(code: String?) {
         print("OMG Sign In Complete")
 
+        guard let code = code else {
+            print("Called us back but with no code?")
+            return
+        }
+
+        spotify.requestToken(withCode: code, completion: saveToken)
+
         //need to now try to get an auth Token
         // POST /v3/auth/token
 
+    }
+
+    func saveToken(token: TokenResponse) {
+        print("SavingToken")
     }
 
 }
