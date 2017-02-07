@@ -3,25 +3,26 @@ import UIKit
 class SignInViewController: UIViewController {
 
     @IBOutlet weak var webView: UIWebView!
-    weak var webViewDelegate: UIWebViewDelegate?
+    var webViewDelegate: UIWebViewDelegate? //swiftlint:disable:this weak_delegate
 
-    var spotify: Spotify!
+    var feedly: Feedly!
 
     override func viewDidLoad() {
-        guard spotify != nil else {
-            fatalError("🐛Spotify Object Not Initialized")
+        super.viewDidLoad()
+        guard feedly != nil else {
+            fatalError("🐛Feedly Object Not Initialized")
         }
         webView.delegate = webViewDelegate
-        webView.loadRequest(spotify.signInRequest)
+        webView.loadRequest(feedly.signInRequest)
     }
 }
 
 class SignInWebViewDelegate: NSObject, UIWebViewDelegate {
 
-    let signInComplete: (() -> Void)
+    let signInComplete: ((String?) -> Void)
     let redirectURI: String
 
-    init(signInComplete: @escaping (() -> Void), redirectURI: String) {
+    init(signInComplete: @escaping ((String?) -> Void), redirectURI: String) {
         self.signInComplete = signInComplete
         self.redirectURI = redirectURI
         super.init()
@@ -31,7 +32,8 @@ class SignInWebViewDelegate: NSObject, UIWebViewDelegate {
                  navigationType: UIWebViewNavigationType) -> Bool {
 
         if isSignInRedirect(request: request) {
-            signInComplete()
+            let code = request.extractAuthCodeFromRedirect()
+            signInComplete(code)
             return false
         }
 
@@ -48,5 +50,20 @@ class SignInWebViewDelegate: NSObject, UIWebViewDelegate {
             return true
         }
         return false
+    }
+
+}
+
+extension URLRequest {
+    func extractAuthCodeFromRedirect() -> String? {
+        guard let url = url else { return nil }
+        let components = NSURLComponents(string: url.absoluteString)
+        guard let items = components?.queryItems else {
+            return nil
+        }
+        let code = items.filter { (item) -> Bool in
+            return item.name == "code"
+        }
+        return code.first?.value
     }
 }

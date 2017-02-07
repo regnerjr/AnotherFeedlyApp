@@ -1,48 +1,16 @@
 import XCTest
 @testable import AnotherFeedlyApp
 
-class AppDelegateTests: XCTestCase {
-
-    var appDelegate: AppDelegate! = nil // swiftlint:disable:this weak_delegate
-
-    override func setUp() {
-        super.setUp()
-        appDelegate = AppDelegate()
+class MockDelegate: NSObject, UIWebViewDelegate {
+    var loadStarted: (() -> Void)
+    init(loadStarted: @escaping (() -> Void)) {
+        self.loadStarted = loadStarted
     }
-
-    override func tearDown() {
-        appDelegate = nil
-        super.tearDown()
-    }
-
-    func testAppDelegateCreatesWindow() {
-        XCTAssertNotNil(appDelegate.window)
-    }
-
-    func testAppDelegateHasCoordinator() {
-        XCTAssertNotNil(appDelegate.appCoordinator)
-    }
-
-}
-
-class AppCoordinatorTests: XCTestCase {
-    override func setUp() {
-        super.setUp()
-        // do setup
-    }
-
-    override func tearDown() {
-        //tear down
-        super.tearDown()
-    }
-
-    func testCoordinatorConfiguresRootVC() {
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        let coordinator = AppCoordinator(window: window)
-
-        coordinator.appLaunched(options: nil)
-
-        XCTAssertNotNil(window.rootViewController)
+    func webView(_ webView: UIWebView,
+                 shouldStartLoadWith request: URLRequest,
+                 navigationType: UIWebViewNavigationType) -> Bool {
+        loadStarted()
+        return true
     }
 }
 
@@ -52,7 +20,7 @@ class SignInWebViewDelegateTests: XCTestCase {
     let otherAction = UIWebViewNavigationType.other
 
     lazy var exp: XCTestExpectation = { self.expectation(description: "Sign In Completion Called") }()
-    lazy var signInCompletion: () -> Void = { self.exp.fulfill() }
+    lazy var signInCompletion: (String?) -> Void = { _ in self.exp.fulfill() }
 
     override func setUp() {
         super.setUp()
@@ -101,19 +69,6 @@ class SignInWebViewDelegateTests: XCTestCase {
     }
 }
 
-class MockDelegate: NSObject, UIWebViewDelegate {
-    let loadCompletion: () -> Void
-    init(completion: @escaping () -> Void) {
-        loadCompletion = completion
-    }
-    func webView(_ webView: UIWebView,
-                 shouldStartLoadWith request: URLRequest,
-                 navigationType: UIWebViewNavigationType) -> Bool {
-        loadCompletion()
-        return true
-    }
-}
-
 class SignInViewControllerTests: XCTestCase {
     override func setUp() {
         super.setUp()
@@ -128,9 +83,9 @@ class SignInViewControllerTests: XCTestCase {
 
         let auth = Auth()
         let signIn = StoryboardScene.Main.instantiateSignInViewController()
-        let delegate = SignInWebViewDelegate(signInComplete: { }, redirectURI: "Whatever")
+        let delegate = SignInWebViewDelegate(signInComplete: { _ in }, redirectURI: "Whatever")
         signIn.webViewDelegate = delegate
-        signIn.spotify = Spotify(auth: auth)
+        signIn.feedly = Feedly(auth: auth)
 
         _ = signIn.view
 
@@ -145,7 +100,7 @@ class SignInViewControllerTests: XCTestCase {
         let mock = MockDelegate { exp.fulfill() }
         let signIn = StoryboardScene.Main.instantiateSignInViewController()
         signIn.webViewDelegate = mock
-        signIn.spotify = Spotify(auth: auth)
+        signIn.feedly = Feedly(auth: auth)
 
         _ = signIn.view
 
@@ -156,3 +111,60 @@ class SignInViewControllerTests: XCTestCase {
         }
     }
 }
+
+class CodeExtraction: XCTestCase {
+
+    func testGoodExtract() {
+
+        let matchingCode = "AQAA7rJ7InAiOjEsImEiOiJmZWVk"
+        let stringUrl = "https://your.redirect.uri/feedlyCallback?code=\(matchingCode)&state=state.passed.in"
+
+        guard let url = URL(string: stringUrl) else {
+            XCTFail("HMM URL Is invalid"); return
+        }
+        let request = URLRequest(url: url)
+
+        let code = request.extractAuthCodeFromRedirect()
+
+        XCTAssertEqual(code, matchingCode)
+    }
+
+    func testTokenRequestJSONHasRightForm() {
+        let code = "12345"
+
+        let auth = Auth()
+        let feedly = Feedly(auth: auth)
+
+        let json = feedly.tokenRequestJSON(code: code)
+        guard let unSerialized = try? JSONSerialization.jsonObject(with: json, options: []) else {
+            fatalError("json data cant be de-serialized")
+        }
+        let unSerializedDict = unSerialized as? [String: Any]
+        XCTAssertEqual(unSerializedDict?["code"] as? String, code)
+    }
+
+    func testBuildRequestJSON() {
+
+        let exp: XCTestExpectation = { self.expectation(description: "") }()
+        let auth = Auth()
+        let feedly = Feedly(auth: auth)
+
+        feedly.requestToken(withCode: "123456", completion: { _ in exp.fulfill() })
+        let req = feedly.tokenRequest(code: "12345")
+
+        XCTAssert(req.httpMethod == "POST")
+        XCTAssertNotNil(req.httpBody)
+        XCTAssertEqual(req.url?.absoluteString.contains("auth/token"), true)
+
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                print("Error: \(error)")
+            }
+        }
+    }
+}
+
+// What we really need to do is take the code that we got back, and put in in a json dict,
+// then POST that dict to /v2/auth/token
+
+// Then from that response we make a little user with a token.
