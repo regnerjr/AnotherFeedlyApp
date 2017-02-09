@@ -1,6 +1,5 @@
 import UIKit
 
-@objc(AppDelegate)
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow? = UIWindow.configure()
@@ -19,7 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
-@objc(TestingAppDelegate)
 class TestingAppDelegate: UIResponder, UIApplicationDelegate {
 
 }
