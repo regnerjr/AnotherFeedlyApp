@@ -145,22 +145,14 @@ class CodeExtraction: XCTestCase {
 
     func testBuildRequestJSON() {
 
-        let exp: XCTestExpectation = { self.expectation(description: "") }()
         let auth = Auth()
         let feedly = Feedly(auth: auth)
 
-        feedly.requestToken(withCode: "123456", completion: { _ in exp.fulfill() })
         let req = feedly.tokenRequest(code: "12345")
 
         XCTAssert(req.httpMethod == "POST")
         XCTAssertNotNil(req.httpBody)
         XCTAssertEqual(req.url?.absoluteString.contains("auth/token"), true)
-
-        waitForExpectations(timeout: 5) { error in
-            if let error = error {
-                print("Error: \(error)")
-            }
-        }
     }
 }
 
