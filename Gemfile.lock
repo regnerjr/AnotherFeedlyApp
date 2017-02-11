@@ -117,10 +117,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bundler!
   cocoapods!
   cocoapods-keys!
   danger!
   danger-swiftlint!
 
 BUNDLED WITH
-   1.13.6
+   1.14.3
