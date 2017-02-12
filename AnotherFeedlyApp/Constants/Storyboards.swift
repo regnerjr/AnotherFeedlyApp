@@ -49,11 +49,11 @@ struct StoryboardScene {
   enum Main: String, StoryboardSceneType {
     static let storyboardName = "Main"
 
-    case signInViewControllerScene = "signInViewController"
-    static func instantiateSignInViewController() -> AnotherFeedlyApp.SignInViewController {
-      guard let vc = StoryboardScene.Main.signInViewControllerScene.viewController() as? AnotherFeedlyApp.SignInViewController
+    case webViewControllerScene = "webViewController"
+    static func instantiateWebViewController() -> AnotherFeedlyApp.WebViewController {
+      guard let vc = StoryboardScene.Main.webViewControllerScene.viewController() as? AnotherFeedlyApp.WebViewController
       else {
-        fatalError("ViewController 'signInViewController' is not of the expected class AnotherFeedlyApp.SignInViewController.")
+        fatalError("ViewController 'webViewController' is not of the expected class AnotherFeedlyApp.WebViewController.")
       }
       return vc
     }

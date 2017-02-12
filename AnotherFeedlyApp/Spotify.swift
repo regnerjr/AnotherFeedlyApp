@@ -22,15 +22,18 @@ struct Feedly {
 
     /// https://developer.feedly.com/v3/auth/#authenticating-a-user-and-obtaining-an-auth-code
     var signInURL: URL {
-        let response_type = URLQueryItem(name: "response_type", value: "code")
-        let client_id = URLQueryItem(name: "client_id", value: auth.clientId)
-        let redirect_uri = URLQueryItem(name: "redirect_uri", value: auth.redirectUri)
-        let scope = URLQueryItem(name: "scope", value: auth.scope)
-
-        var url = URLComponents(string: self.base)!
-        url.path = self.signInPath
-        url.queryItems = [ response_type, client_id, redirect_uri, scope]
+        var url = URLComponents(string: base)!
+        url.path = signInPath
+        url.queryItems = signInQueryItems(authInfo: auth)
         return url.url!
+    }
+
+    private func signInQueryItems(authInfo: Auth) -> [URLQueryItem] {
+        let response_type = URLQueryItem(name: "response_type", value: "code")
+        let client_id = URLQueryItem(name: "client_id", value: authInfo.clientId)
+        let redirect_uri = URLQueryItem(name: "redirect_uri", value: authInfo.redirectUri)
+        let scope = URLQueryItem(name: "scope", value: authInfo.scope)
+        return [response_type, client_id, redirect_uri, scope]
     }
 
     func requestToken(withCode code: String, completion: @escaping (FeedlyToken) -> Void) {
