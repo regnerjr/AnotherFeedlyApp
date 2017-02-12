@@ -13,27 +13,21 @@ class AppCoordinator {
 
     func appLaunched(options: [UIApplicationLaunchOptionsKey : Any]? = nil) {
 
-        let signInVC = StoryboardScene.Main.instantiateSignInViewController()
-        let signInWebViewDelegate = SignInWebViewDelegate(signInComplete: signInComplete,
-                                                          redirectURI: auth.redirectUri)
-        signInVC.feedly = feedly
+        let signInVC = StoryboardScene.Main.instantiateWebViewController()
+        let signInWebViewDelegate = InterestingWebViewDelegate(completion: signInComplete,
+                                                          urlOfInterest: auth.redirectUri)
+        signInVC.urlRequest = feedly.signInRequest
         signInVC.webViewDelegate = signInWebViewDelegate
         window.rootViewController = signInVC
     }
 
-    func signInComplete(code: String?) {
+    func signInComplete(withRedirectRequest request: URLRequest) {
         print("OMG Sign In Complete")
-
-        guard let code = code else {
+        guard let code = request.extractAuthCodeFromRedirect() else {
             print("Called us back but with no code?")
             return
         }
-
         feedly.requestToken(withCode: code, completion: saveToken)
-
-        //need to now try to get an auth Token
-        // POST /v3/auth/token
-
     }
 
     func saveToken(token: FeedlyToken) {
@@ -41,3 +35,18 @@ class AppCoordinator {
     }
 
 }
+
+extension URLRequest {
+    func extractAuthCodeFromRedirect() -> String? {
+        guard let url = url else { return nil }
+        let components = NSURLComponents(string: url.absoluteString)
+        guard let items = components?.queryItems else {
+            return nil
+        }
+        let code = items.filter { (item) -> Bool in
+            return item.name == "code"
+        }
+        return code.first?.value
+    }
+}
+

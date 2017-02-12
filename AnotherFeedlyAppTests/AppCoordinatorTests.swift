@@ -23,16 +23,4 @@ class AppCoordinatorTests: XCTestCase {
         XCTAssertNotNil(window.rootViewController)
     }
 
-    func testWhenSignInCompletesWeRequestAnAuthTokenWithTheSignInToken() {
-
-        let signInCode = "12345"
-
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        print(window)
-        let coordinator = AppCoordinator(window: window)
-
-        coordinator.signInComplete(code: signInCode)
-
-    }
-
 }

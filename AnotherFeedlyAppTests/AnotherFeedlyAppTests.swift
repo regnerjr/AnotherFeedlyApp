@@ -1,65 +1,66 @@
 import XCTest
+import WebKit
 @testable import AnotherFeedlyApp
 
-class MockDelegate: NSObject, UIWebViewDelegate {
-    var loadStarted: (() -> Void)
-    init(loadStarted: @escaping (() -> Void)) {
-        self.loadStarted = loadStarted
-    }
-    func webView(_ webView: UIWebView,
-                 shouldStartLoadWith request: URLRequest,
-                 navigationType: UIWebViewNavigationType) -> Bool {
-        loadStarted()
-        return true
+class MockWebView: WKWebView {
+    var loaded = false
+    var urlString: String! = ""
+    override func load(_ request: URLRequest) -> WKNavigation? {
+        print("trying to load \(request)")
+        loaded = true
+        urlString = request.url!.absoluteString
+        return nil
     }
 }
 
-class SignInWebViewDelegateTests: XCTestCase {
+class InterestingWebViewDelegateTests: XCTestCase {
 
-    var webView: UIWebView!
     let otherAction = UIWebViewNavigationType.other
 
     lazy var exp: XCTestExpectation = { self.expectation(description: "Sign In Completion Called") }()
-    lazy var signInCompletion: (String?) -> Void = { _ in self.exp.fulfill() }
+    lazy var signInCompletion: (URLRequest) -> Void = { _ in self.exp.fulfill() }
 
     override func setUp() {
         super.setUp()
-        webView = UIWebView()
     }
 
     override func tearDown() {
-        webView = nil
         super.tearDown()
     }
 
-    func testShouldLoadRequestWhichIsRedirect() {
+    func testShouldLoadRequestWhichIsRegularURL() {
 
         //we don't care about the completion handler for this test
-        let webDelegate = SignInWebViewDelegate(signInComplete: { _ in return },
-                                                redirectURI: "myRedirectURI")
+        let webDelegate = InterestingWebViewDelegate(completion: {_ in }, urlOfInterest: "myRedirectURI")
         let request = URLRequest(url: URL(string:"https://www.google.com")!)
 
-        let result = webDelegate.webView(webView, shouldStartLoadWith: request, navigationType: otherAction)
+        var result = false
+        webDelegate.decideIf(requestIsInteresting: request, AndCallCorrectHandler: { policy in
+            result = policy == .allow
+        })
+
         XCTAssert(result == true, "WebView should load google")
     }
 
     func testShouldNotLoadURLSMatchingOurRedirectURI() {
         //we don't care about the completion handler for this test
-        let webDelegate = SignInWebViewDelegate(signInComplete: { _ in return },
-                                                redirectURI: "myRedirectURI")
+        let webDelegate = InterestingWebViewDelegate(completion: {_ in }, urlOfInterest: "myRedirectURI")
         let request = URLRequest(url: URL(string:"myRedirectURI://auth/somecodes&keys=here")!)
 
-        let result = webDelegate.webView(webView, shouldStartLoadWith: request, navigationType: otherAction)
+        var result = false
+        webDelegate.decideIf(requestIsInteresting: request, AndCallCorrectHandler: { policy in
+            result = policy == .cancel
+        })
         XCTAssert(result == false, "WebView should not load if new url matches our redirect URI")
     }
 
     func testThatTheWebDelegateCallsOurCompletionHandlerWhenARedirectIsDetected() {
 
-        let webDelegate = SignInWebViewDelegate(signInComplete: signInCompletion,
-                                                redirectURI: "myRedirectURI")
+        let webDelegate = InterestingWebViewDelegate(completion: signInCompletion, urlOfInterest: "myRedirectURI")
         let request = URLRequest(url: URL(string:"myRedirectURI://auth/somecodes&keys=here")!)
 
-        let _ = webDelegate.webView(webView, shouldStartLoadWith: request, navigationType: otherAction)
+        webDelegate.decideIf(requestIsInteresting: request, AndCallCorrectHandler: { _ in
+        })
 
         waitForExpectations(timeout: 5) { error in
             if let error = error {
@@ -67,6 +68,7 @@ class SignInWebViewDelegateTests: XCTestCase {
             }
         }
     }
+
 }
 
 class SignInViewControllerTests: XCTestCase {
@@ -82,33 +84,29 @@ class SignInViewControllerTests: XCTestCase {
     func testViewDidLoadSetsUpWebDelegate() {
 
         let auth = Auth()
-        let signIn = StoryboardScene.Main.instantiateSignInViewController()
-        let delegate = SignInWebViewDelegate(signInComplete: { _ in }, redirectURI: "Whatever")
+        let signIn = StoryboardScene.Main.instantiateWebViewController()
+        let delegate = InterestingWebViewDelegate(completion: {_ in }, urlOfInterest: "Whatever")
         signIn.webViewDelegate = delegate
-        signIn.feedly = Feedly(auth: auth)
+        signIn.urlRequest = Feedly(auth: auth).signInRequest
 
         _ = signIn.view
 
-        XCTAssertNotNil(signIn.webView.delegate)
+        XCTAssertNotNil(signIn.webView.navigationDelegate)
     }
 
     func testViewDidLoadStartsWebLoad() {
 
-        let exp: XCTestExpectation = { self.expectation(description: "WebViewLoads") }()
-
         let auth = Auth()
-        let mock = MockDelegate { exp.fulfill() }
-        let signIn = StoryboardScene.Main.instantiateSignInViewController()
-        signIn.webViewDelegate = mock
-        signIn.feedly = Feedly(auth: auth)
+        let signIn = StoryboardScene.Main.instantiateWebViewController()
+        let mockWebView = MockWebView()
+
+        signIn.webView = mockWebView
+        signIn.urlRequest = Feedly(auth: auth).signInRequest
 
         _ = signIn.view
 
-        waitForExpectations(timeout: 5) { error in
-            if let error = error {
-                print("Error: \(error)")
-            }
-        }
+        XCTAssert(mockWebView.loaded, "Web View did not call `loadRequest` Loaded:\(mockWebView.loaded)")
+        XCTAssert(mockWebView.urlString.hasPrefix("https://sandbox.feedly.com"), "URL String \(mockWebView.urlString)")
     }
 }
 
