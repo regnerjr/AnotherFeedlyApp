@@ -49,4 +49,3 @@ extension URLRequest {
         return code.first?.value
     }
 }
-
