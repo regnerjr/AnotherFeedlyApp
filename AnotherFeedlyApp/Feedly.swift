@@ -9,7 +9,6 @@ protocol AuthData {
     var clientSecret: String { get }
 }
 
-
 struct Feedly {
 
     let auth: AuthData
