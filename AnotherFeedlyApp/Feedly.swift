@@ -2,9 +2,17 @@ import Foundation
 
 fileprivate let defaultSession = URLSession(configuration: URLSessionConfiguration.default)
 
+protocol AuthData {
+    var redirectUri: String { get }
+    var scope: String { get }
+    var clientId: String { get }
+    var clientSecret: String { get }
+}
+
+
 struct Feedly {
 
-    let auth: Auth
+    let auth: AuthData
     let session: URLSession
 
     let base = "https://sandbox.feedly.com"
@@ -15,7 +23,7 @@ struct Feedly {
         return URLRequest(url: signInURL)
     }
 
-    init(auth: Auth, session: URLSession = defaultSession) {
+    init(auth: AuthData, session: URLSession = defaultSession) {
         self.auth = auth
         self.session = session
     }
@@ -28,7 +36,7 @@ struct Feedly {
         return url.url!
     }
 
-    private func signInQueryItems(authInfo: Auth) -> [URLQueryItem] {
+    private func signInQueryItems(authInfo: AuthData) -> [URLQueryItem] {
         let response_type = URLQueryItem(name: "response_type", value: "code")
         let client_id = URLQueryItem(name: "client_id", value: authInfo.clientId)
         let redirect_uri = URLQueryItem(name: "redirect_uri", value: authInfo.redirectUri)
