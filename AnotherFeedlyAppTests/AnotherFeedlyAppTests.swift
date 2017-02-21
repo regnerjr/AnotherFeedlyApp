@@ -133,7 +133,7 @@ class CodeExtraction: XCTestCase {
         let auth = Auth()
         let feedly = Feedly(auth: auth)
 
-        let json = feedly.tokenRequestJSON(code: code)
+        let json = feedly.tokenRequestPayload(code: code)
         guard let unSerialized = try? JSONSerialization.jsonObject(with: json, options: []) else {
             fatalError("json data cant be de-serialized")
         }
