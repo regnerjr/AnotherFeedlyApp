@@ -19,3 +19,5 @@ struct Auth {
         self.scope = scope
     }
 }
+
+extension Auth: AuthData { }
