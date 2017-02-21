@@ -43,14 +43,28 @@ struct Feedly {
         return [response_type, client_id, redirect_uri, scope]
     }
 
+    /// Once you have a code from the OAuth redirect, you can use it here to
+    /// request a token from the Feedly API. This will give you an authorized
+    /// token you can use to talk to the api with
     func requestToken(withCode code: String, completion: @escaping (FeedlyToken) -> Void) {
         let req = tokenRequest(code: code)
         let task = session.dataTask(with: req, completionHandler: tokenResponseHandler(completion))
         task.resume()
     }
 
+    func tokenRequest(code: String) -> URLRequest {
+        guard let url = URL(string: base + tokenPath) else {
+           fatalError("Can't build Token Request URL")
+        }
+        var req = URLRequest(url: url)
+        req.httpMethod = "POST"
+        req.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        req.httpBody = tokenRequestPayload(code: code)
+        return req
+    }
+
     /// https://developer.feedly.com/v3/auth/#exchanging-an-auth-code-for-a-refresh-token-and-an-access-token
-    func tokenRequestJSON(code: String) -> Data {
+    func tokenRequestPayload(code: String) -> Data {
         let dict = [
             "code": code,
             "client_id": auth.clientId,
@@ -61,17 +75,6 @@ struct Feedly {
         ]
         return try! JSONSerialization // swiftlint:disable:this force_try
             .data(withJSONObject: dict, options: [])
-    }
-
-    func tokenRequest(code: String) -> URLRequest {
-        guard let url = URL(string: base + tokenPath) else {
-           fatalError("Can't build Token Request URL")
-        }
-        var req = URLRequest(url: url)
-        req.httpMethod = "POST"
-        req.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        req.httpBody = tokenRequestJSON(code: code)
-        return req
     }
 
     typealias NetworkHandler = (Data?, URLResponse?, Error?) -> Void
