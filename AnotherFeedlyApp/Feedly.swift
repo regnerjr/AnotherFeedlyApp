@@ -9,7 +9,7 @@ protocol AuthData {
     var clientSecret: String { get }
 }
 
-class Feedly {
+class FeedlySignIn {
 
     let auth: AuthData
     let session: URLSession
@@ -116,7 +116,6 @@ class Feedly {
         return handleNetworkResponse
     }
 }
-
 
 struct FeedlyToken {
 
