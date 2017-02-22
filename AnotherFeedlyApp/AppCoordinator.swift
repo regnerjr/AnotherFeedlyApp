@@ -5,7 +5,7 @@ class AppCoordinator {
     let window: UIWindow
 
     let auth = Auth()
-    lazy var feedly: Feedly = { Feedly(auth: self.auth) }()
+    lazy var feedly: FeedlySignIn = { FeedlySignIn(auth: self.auth) }()
 
     init(window: UIWindow) {
         self.window = window
