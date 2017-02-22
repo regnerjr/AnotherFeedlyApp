@@ -87,7 +87,7 @@ class SignInViewControllerTests: XCTestCase {
         let signIn = StoryboardScene.Main.instantiateWebViewController()
         let delegate = InterestingWebViewDelegate(completion: {_ in }, urlOfInterest: "Whatever")
         signIn.webViewDelegate = delegate
-        signIn.urlRequest = Feedly(auth: auth).signInRequest
+        signIn.urlRequest = FeedlySignIn(auth: auth).signInRequest
 
         _ = signIn.view
 
@@ -101,7 +101,7 @@ class SignInViewControllerTests: XCTestCase {
         let mockWebView = MockWebView()
 
         signIn.webView = mockWebView
-        signIn.urlRequest = Feedly(auth: auth).signInRequest
+        signIn.urlRequest = FeedlySignIn(auth: auth).signInRequest
 
         _ = signIn.view
 
@@ -131,7 +131,7 @@ class CodeExtraction: XCTestCase {
         let code = "12345"
 
         let auth = Auth()
-        let feedly = Feedly(auth: auth)
+        let feedly = FeedlySignIn(auth: auth)
 
         let json = feedly.tokenRequestPayload(code: code)
         guard let unSerialized = try? JSONSerialization.jsonObject(with: json, options: []) else {
@@ -144,7 +144,7 @@ class CodeExtraction: XCTestCase {
     func testBuildRequestJSON() {
 
         let auth = Auth()
-        let feedly = Feedly(auth: auth)
+        let feedly = FeedlySignIn(auth: auth)
 
         let req = feedly.tokenRequest(code: "12345")
 
@@ -156,7 +156,7 @@ class CodeExtraction: XCTestCase {
     func testNetworkResponseHandlerAll_ForAuthTokenRequest() {
 
         let auth = Auth()
-        let feedly = Feedly(auth: auth)
+        let feedly = FeedlySignIn(auth: auth)
 
         let exp = expectation(description: "token was returned")
 
@@ -173,8 +173,3 @@ class CodeExtraction: XCTestCase {
 
     }
 }
-
-// What we really need to do is take the code that we got back, and put in in a json dict,
-// then POST that dict to /v2/auth/token
-
-// Then from that response we make a little user with a token.
