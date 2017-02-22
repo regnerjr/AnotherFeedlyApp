@@ -109,7 +109,6 @@ class FeedlySignIn {
 
         func handleNetworkResponse(data: Data?, response: URLResponse?, err: Error?) {
             guard err == nil else {
-                print("\((err as? NSError)?.localizedDescription)")
                 completion(.error(err!))
                 return
             }

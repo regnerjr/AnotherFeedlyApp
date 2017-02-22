@@ -160,15 +160,21 @@ class CodeExtraction: XCTestCase {
 
         let exp = expectation(description: "token was returned")
 
-        let handler = feedly.tokenResponseHandler { _ in
-            exp.fulfill()
+        let handler = feedly.tokenResponseHandler { result in
+            switch result {
+            case .success(let token):
+                XCTFail("Should not get token without passing data (only error)")
+            case .error(let error):
+                exp.fulfill()
+            }
         }
         let err = NSError(domain: "networkFail", code: 1234, userInfo: nil)
         handler(nil, nil, err)
 
-        waitForExpectations(timeout: 3) { (err) in
-            guard let err = err else { return XCTFail() }
-            return XCTFail("\(err.localizedDescription)")
+        waitForExpectations(timeout: 3) { (error) in
+            if let error = error {
+                XCTFail("\(error.localizedDescription)")
+            }
         }
 
     }
