@@ -1,5 +1,5 @@
 [![Build Status](https://www.bitrise.io/app/e1499563e5fd3274.svg?token=CM9pQl0-pkc7GPfEKd8LfA&branch=master)](https://www.bitrise.io/app/e1499563e5fd3274)
-
+[![codecov](https://codecov.io/gh/regnerjr/AnotherFeedlyApp/branch/master/graph/badge.svg)](https://codecov.io/gh/regnerjr/AnotherFeedlyApp)
 # Pretty much just a Feedly App
 
 You can use this app (when it's finished) to browse and read Blogs and stuff.
