@@ -9,6 +9,11 @@ protocol AuthData {
     var clientSecret: String { get }
 }
 
+enum Result<T, U> {
+    case success(T)
+    case error(U)
+}
+
 class FeedlySignIn {
 
     let auth: AuthData
@@ -44,14 +49,20 @@ class FeedlySignIn {
     }
 
     func signInFinished(request: URLRequest) {
-        print("OMG Sign In Complete")
         guard let code = request.extractAuthCodeFromRedirect() else {
-            print("Called us back but with no code?")
+            // TODO: Add function call here to call back to user, that Sign In has failed
+            // Or that we did not get the code we expected.
+            // perhaps we can show a button to let the user click to try to sign in again?
+
             return
         }
         requestToken(withCode: code) { (token) in
-            //save token
-            //call back to AppCoordinator, Token succesfully gotten
+            switch token {
+            case .success(let token): print("Got a token")
+            // Save Token
+            case .error(let error): print("Got an error")
+            // Return Error
+            }
         }
     }
 
@@ -60,7 +71,8 @@ class FeedlySignIn {
     /// token you can use to talk to the api with
     ///
     /// NOTE: Literally just making a network call, nothing to see here. (NO Tests required)
-    func requestToken(withCode code: String, completion: @escaping (FeedlyToken) -> Void) {
+    typealias TokenResult = Result<FeedlyToken, Error>
+    func requestToken(withCode code: String, completion: @escaping (TokenResult) -> Void) {
         let req = tokenRequest(code: code)
         let task = session.dataTask(with: req, completionHandler: tokenResponseHandler(completion))
         task.resume()
@@ -93,12 +105,13 @@ class FeedlySignIn {
 
     typealias NetworkHandler = (Data?, URLResponse?, Error?) -> Void
 
-    func tokenResponseHandler(_ completion: @escaping ((FeedlyToken) -> Void)) -> NetworkHandler {
+    func tokenResponseHandler(_ completion: @escaping ((TokenResult) -> Void)) -> NetworkHandler {
 
         func handleNetworkResponse(data: Data?, response: URLResponse?, err: Error?) {
             guard err == nil else {
                 print("\((err as? NSError)?.localizedDescription)")
-                return //feel like we need some kind of error completion here
+                completion(.error(err!))
+                return
             }
 
             if  let response = response,
@@ -111,7 +124,7 @@ class FeedlySignIn {
             }
 
             let tokenResponse = FeedlyToken(data: data)
-            completion(tokenResponse)
+            completion(.success(tokenResponse))
         }
         return handleNetworkResponse
     }
