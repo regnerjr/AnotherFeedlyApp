@@ -152,6 +152,26 @@ class CodeExtraction: XCTestCase {
         XCTAssertNotNil(req.httpBody)
         XCTAssertEqual(req.url?.absoluteString.contains("auth/token"), true)
     }
+
+    func testNetworkResponseHandlerAll_ForAuthTokenRequest() {
+
+        let auth = Auth()
+        let feedly = Feedly(auth: auth)
+
+        let exp = expectation(description: "token was returned")
+
+        let handler = feedly.tokenResponseHandler { _ in
+            exp.fulfill()
+        }
+        let err = NSError(domain: "networkFail", code: 1234, userInfo: nil)
+        handler(nil, nil, err)
+
+        waitForExpectations(timeout: 3) { (err) in
+            guard let err = err else { return XCTFail() }
+            return XCTFail("\(err.localizedDescription)")
+        }
+
+    }
 }
 
 // What we really need to do is take the code that we got back, and put in in a json dict,

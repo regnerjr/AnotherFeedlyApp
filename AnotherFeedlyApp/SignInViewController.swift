@@ -33,7 +33,8 @@ class InterestingWebViewDelegate: NSObject, WKNavigationDelegate {
     }
 
     //swiftlint:disable:next line_length
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
+                 decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         decideIf(requestIsInteresting: navigationAction.request, AndCallCorrectHandler: decisionHandler)
     }
 

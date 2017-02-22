@@ -9,7 +9,7 @@ protocol AuthData {
     var clientSecret: String { get }
 }
 
-struct Feedly {
+class Feedly {
 
     let auth: AuthData
     let session: URLSession
@@ -43,9 +43,23 @@ struct Feedly {
         return [response_type, client_id, redirect_uri, scope]
     }
 
+    func signInFinished(request: URLRequest) {
+        print("OMG Sign In Complete")
+        guard let code = request.extractAuthCodeFromRedirect() else {
+            print("Called us back but with no code?")
+            return
+        }
+        requestToken(withCode: code) { (token) in
+            //save token
+            //call back to AppCoordinator, Token succesfully gotten
+        }
+    }
+
     /// Once you have a code from the OAuth redirect, you can use it here to
     /// request a token from the Feedly API. This will give you an authorized
     /// token you can use to talk to the api with
+    ///
+    /// NOTE: Literally just making a network call, nothing to see here. (NO Tests required)
     func requestToken(withCode code: String, completion: @escaping (FeedlyToken) -> Void) {
         let req = tokenRequest(code: code)
         let task = session.dataTask(with: req, completionHandler: tokenResponseHandler(completion))
@@ -103,12 +117,11 @@ struct Feedly {
     }
 }
 
+
 struct FeedlyToken {
 
     init(data: Data) {
         let json = try? JSONSerialization.jsonObject(with: data, options: [])
-        print("🏄🏄🏄🏄🏄🏄🏄🏄🏄🏄🏄")
-        print(json)
     }
 
 }
