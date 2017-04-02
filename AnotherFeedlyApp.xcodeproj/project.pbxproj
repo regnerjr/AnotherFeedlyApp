@@ -13,7 +13,7 @@
 		5273A4A71E2719F300633F6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5273A4A51E2719F300633F6A /* Main.storyboard */; };
 		5273A4A91E2719F300633F6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5273A4A81E2719F300633F6A /* Assets.xcassets */; };
 		5273A4AC1E2719F300633F6A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5273A4AA1E2719F300633F6A /* LaunchScreen.storyboard */; };
-		529AABD21E28601F000C62A1 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529AABD11E28601F000C62A1 /* SignInViewController.swift */; };
+		529AABD21E28601F000C62A1 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529AABD11E28601F000C62A1 /* WebViewController.swift */; };
 		529AABD61E287088000C62A1 /* Feedly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529AABD51E287088000C62A1 /* Feedly.swift */; };
 		529AABDE1E287109000C62A1 /* AnotherFeedlyAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529AABDD1E287109000C62A1 /* AnotherFeedlyAppTests.swift */; };
 		529AABE61E288F21000C62A1 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529AABE51E288F21000C62A1 /* main.swift */; };
@@ -49,7 +49,7 @@
 		5273A4A81E2719F300633F6A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5273A4AB1E2719F300633F6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5273A4AD1E2719F400633F6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		529AABD11E28601F000C62A1 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		529AABD11E28601F000C62A1 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		529AABD51E287088000C62A1 /* Feedly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feedly.swift; sourceTree = "<group>"; };
 		529AABDB1E287109000C62A1 /* AnotherFeedlyAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnotherFeedlyAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		529AABDD1E287109000C62A1 /* AnotherFeedlyAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnotherFeedlyAppTests.swift; sourceTree = "<group>"; };
@@ -121,13 +121,12 @@
 		5273A4A01E2719F300633F6A /* AnotherFeedlyApp */ = {
 			isa = PBXGroup;
 			children = (
-				52EEB52D1E28A91000F55421 /* SwiftGenConstants */,
 				529AABD51E287088000C62A1 /* Feedly.swift */,
 				529AABE51E288F21000C62A1 /* main.swift */,
 				5273A4A11E2719F300633F6A /* AppDelegate.swift */,
 				52EEB52E1E28AAA000F55421 /* AppCoordinator.swift */,
 				5273A4A51E2719F300633F6A /* Main.storyboard */,
-				529AABD11E28601F000C62A1 /* SignInViewController.swift */,
+				529AABD11E28601F000C62A1 /* WebViewController.swift */,
 				5273A4A81E2719F300633F6A /* Assets.xcassets */,
 				5273A4AA1E2719F300633F6A /* LaunchScreen.storyboard */,
 				5273A4AD1E2719F400633F6A /* Info.plist */,
@@ -416,7 +415,7 @@
 				5239B9831E5D59CF005509D8 /* URLRequest-Extensions.swift in Sources */,
 				52EEB52A1E28A3DC00F55421 /* Storyboards.swift in Sources */,
 				52EEB52F1E28AAA000F55421 /* AppCoordinator.swift in Sources */,
-				529AABD21E28601F000C62A1 /* SignInViewController.swift in Sources */,
+				529AABD21E28601F000C62A1 /* WebViewController.swift in Sources */,
 				525469C91E31C1A1009CDA21 /* UIWindow+Extensions.swift in Sources */,
 				52EEB52C1E28A40F00F55421 /* Images.swift in Sources */,
 				529AABE61E288F21000C62A1 /* main.swift in Sources */,
