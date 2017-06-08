@@ -1,6 +1,6 @@
 import Foundation
 
-fileprivate let defaultSession = URLSession(configuration: URLSessionConfiguration.default)
+let defaultSession = URLSession(configuration: URLSessionConfiguration.default)
 
 protocol AuthData {
     var redirectUri: String { get }
